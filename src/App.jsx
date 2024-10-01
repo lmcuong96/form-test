@@ -9,6 +9,9 @@ function App() {
     if (!username || !password) {
       alert("Please enter username and password");
       return;
+    } else if (password.length < 8) {
+      alert("Password must be at least 8 characters long");
+      return;
     } else
       alert(`Your username is ${username} and your password is ${password}`);
   };
