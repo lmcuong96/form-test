@@ -1,0 +1,22 @@
+{
+  "overrides": [
+    {
+      "files": "*.js",
+      "options": {
+        "indent": 4
+      }
+    },
+    {
+      "files": "*.jsx",
+      "options": {
+        "indent": 4
+      }
+    },
+    {
+      "files": "*.css",
+      "options": {
+        "indent": 2
+      }
+    }
+  ]
+}
