@@ -1,6 +1,5 @@
-import "./App.css";
+import "./app.css";
 import React, { useState } from "react";
-import { ArrayToDiv } from "./ArrayToDiv";
 
 export const App = () => {
     const [upercase, setUpercase] = useState();
@@ -79,7 +78,6 @@ export const App = () => {
                     </div>
                 </div>
             </div>
-            <ArrayToDiv />
         </div>
     );
 };
