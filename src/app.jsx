@@ -1,83 +1,100 @@
 import "./app.css";
-import React, { useState } from "react";
+import React, {Fragment, useState} from "react";
+
+
+const UsernameComp = () => {
+    const [username, setUsername] = useState("");
+
+    return {
+        render: () => (
+            <div>
+                <label>Username</label>
+                <input
+                    type="text"
+                    value={username}
+                    onChange={(e) =>
+                        setUsername(e.target.value)
+                    }
+                />
+            </div>
+        ),
+        invalid: !username,
+        explain: () => <p>Tên của bạn là "{username}"</p>,
+        addData: (ret) => ({...ret, username}),
+        showErrors: () => alert("Go username vao di may"),
+    };
+};
+const PasswordComp = () => {
+    const [val, setVal] = useState("");
+
+    return {
+        render: () => (
+            <div>
+                <label>Password</label>
+                <input
+                    type="password"
+                    value={val}
+                    onChange={(e) =>
+                        setVal(e.target.value)
+                    }
+                />
+            </div>
+        ),
+        invalid: !val || val.length < 3,
+        explain: () => <p>Mat khau co "{val.length}" ky tu</p>,
+        addData: (ret) => ({...ret, password: val}),
+        showErrors: () => alert(!val ? "Go password vao di may" : val.length < 3 && "Go nhieu vao. Ngan qua"),
+    };
+};
 
 export const App = () => {
-    const [upercase, setUpercase] = useState();
-    const [state, setState] = useState({
-        username: "",
-        password: "",
-    });
+    const usernameComp = UsernameComp();
+    const passwordComp = PasswordComp();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const { username, password } = state;
-        if (!username || !password) {
-            alert("Please enter username and password");
-        } else if (password.length < 8) {
-            alert("Password must be at least 8 characters long");
-        } else {
-            alert(
-                `Your username is ${username} and your password is ${password}`
-            );
-        }
-    };
+    const combine = combineComponents([
+        usernameComp,
+        passwordComp,
+    ]);
     return (
         <div style={{ textAlign: "center", display: "flex", gap: "50px" }}>
             <div>
                 <h1>UserName and Password</h1>
                 <div>
-                    <div>
-                        <label>UnControlled Username</label>
-                        <input
-                            type="text"
-                            onChange={(e) =>
-                                setState({ ...state, username: e.target.value })
+                    {combine.render()}
+                    <button
+                        className={combine.invalid ? "disabled" : ""}
+                        onClick={() => {
+                            if (combine.invalid) {
+                                combine.showErrors();
+                            } else {
+                                alert(combine.json());
                             }
-                        />
-                    </div>
+                        }}>Submit
+                    </button>
+
                     <div>
-                        <label>Controlled Username</label>
-                        <input
-                            type="text"
-                            value={state.username}
-                            onChange={(e) =>
-                                setState({ ...state, username: e.target.value })
-                            }
-                        />
-                    </div>
-                    <div>
-                        <label>Controlled Username Without OnChange</label>
-                        <input type="text" value={state.username} />
-                    </div>
-                    <div>
-                        <label>Upercase Username</label>
-                        <input
-                            type="text"
-                            value={upercase}
-                            onChange={(e) =>
-                                setUpercase(e.target.value.toUpperCase())
-                            }
-                        />
-                    </div>
-                    <div>
-                        <label>Password</label>
-                        <input
-                            type="password"
-                            onChange={(e) =>
-                                setState({
-                                    ...state,
-                                    password: e.target.value.length,
-                                })
-                            }
-                        />
-                    </div>
-                    <button onClick={handleSubmit}>Submit</button>
-                    <div>
-                        <p>Tên của bạn là "{state.username}"</p>
-                        <p>Mật khẩu của bạn có {state.password} ký tự</p>
+                        {combine.explain()}
                     </div>
                 </div>
             </div>
         </div>
     );
 };
+
+
+const combineComponents = (comps) => ({
+    render: () => comps?.map((comp, i) => <Fragment key={i}>{comp.render()}</Fragment>),
+    explain: () => comps?.map((comp, i) => <Fragment key={i}>{comp.explain()}</Fragment>),
+    invalid: comps.some((comp) => comp.invalid),
+    json: () => {
+        let data = {};
+        for (const comp of comps) {
+            data = comp.addData(data);
+        }
+        return JSON.stringify(data);
+    },
+    showErrors: () => {
+        comps.find((comp) => comp.invalid)?.showErrors();
+    },
+});
+

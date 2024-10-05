@@ -6,7 +6,7 @@ import {ArrayTest} from "./array-test.jsx";
 
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
-		{/*<App />*/}
-        <ArrayTest/>
+		<App />
+        {/*<ArrayTest/>*/}
 	</StrictMode>
 );
