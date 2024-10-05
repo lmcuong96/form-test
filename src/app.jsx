@@ -1,8 +1,8 @@
 import "./app.css";
 import React, { Fragment, useState } from "react";
-import { UsernameComp } from "./UserName.jsx";
-import { PasswordComp } from "./Password.jsx";
-import { combineComponents } from "./CompileCom.jsx";
+import { UsernameComp } from "./comp/UserName.jsx";
+import { PasswordComp } from "./comp/Password.jsx";
+import { combineComponents } from "./comp/CompileCom.jsx";
 export const App = () => {
     const usernameComp = UsernameComp();
     const passwordComp = PasswordComp();
