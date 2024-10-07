@@ -1,11 +1,11 @@
 import { useState } from "react";
-export const PasswordComp = () => {
+export const RePasswordComp = (pas) => {
     const [val, setVal] = useState("");
 
     return {
         render: () => (
             <div>
-                <label>Password</label>
+                <label>Repeat Password</label>
                 <input
                     type="password"
                     value={val}
@@ -15,13 +15,7 @@ export const PasswordComp = () => {
         ),
         invalid: !val || val.length < 3,
         explain: () => <p>Mat khau co "{val.length}" ky tu</p>,
-        addData: (ret) => ({ ...ret, password: val }),
-        showErrors: () =>
-            alert(
-                !val
-                    ? "Go password vao di may"
-                    : val.length < 3 && "Go nhieu vao. Ngan qua"
-            ),
-        val: val,
+        addData: (ret) => ({ ...ret, rePassword: val }),
+        showErrors: () => alert(!val !== pas && "Password không trùng khớp"),
     };
 };
