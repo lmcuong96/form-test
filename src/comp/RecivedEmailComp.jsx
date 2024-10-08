@@ -1,6 +1,6 @@
 import { useState } from "react";
 export const RecivedEmailComp = () => {
-    const [receivedEmail, setReceivedEmail] = useState();
+    const [receivedEmail, setReceivedEmail] = useState(true);
 
     return {
         render: () => (
@@ -9,13 +9,15 @@ export const RecivedEmailComp = () => {
                 <input
                     type="checkbox"
                     checked={receivedEmail}
-                    onChange={(e) => setReceivedEmail(e.target.value)}
+                    onChange={(e) => {
+                        setReceivedEmail(e.target.checked);
+                    }}
                 />
             </div>
         ),
-        invalid: !receivedEmail,
+        // invalid: !receivedEmail,
         explain: () => <p>Xác nhận nhận thông báo "{receivedEmail}"</p>,
         addData: (ret) => ({ ...ret, receivedEmail }),
-        showErrors: () => alert("Khong muon nhan email?"),
+        // showErrors: () => alert("Khong muon nhan email?"),
     };
 };

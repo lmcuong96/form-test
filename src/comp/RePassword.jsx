@@ -13,9 +13,10 @@ export const RePasswordComp = (pas) => {
                 />
             </div>
         ),
-        invalid: !val || val.length < 3,
+        // invalid: !val || val.length < 3,
+        invalid: val !== pas,
         explain: () => <p>Mat khau co "{val.length}" ky tu</p>,
         addData: (ret) => ({ ...ret, rePassword: val }),
-        showErrors: () => alert(!val !== pas && "Password không trùng khớp"),
+        showErrors: () => alert("Password không trùng khớp"),
     };
 };
